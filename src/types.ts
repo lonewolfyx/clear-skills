@@ -42,6 +42,7 @@ export type IAgentType
         | 'roo'
         | 'trae'
         | 'trae-cn'
+        | 'warp'
         | 'windsurf'
         | 'zencoder'
         | 'pochi'

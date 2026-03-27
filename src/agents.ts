@@ -252,6 +252,12 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         skillsDir: '.trae/skills',
         globalSkillsDir: join(home, '.trae-cn/skills'),
     },
+    'warp': {
+        name: 'warp',
+        displayName: 'Warp',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(home, '.agents/skills'),
+    },
     'windsurf': {
         name: 'windsurf',
         displayName: 'Windsurf',
