@@ -20,7 +20,7 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'antigravity': {
         name: 'antigravity',
         displayName: 'Antigravity',
-        skillsDir: '.agent/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.gemini/antigravity/skills'),
     },
     'augment': {
@@ -48,8 +48,8 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'cline': {
         name: 'cline',
         displayName: 'Cline',
-        skillsDir: '.cline/skills',
-        globalSkillsDir: join(home, '.cline/skills'),
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(home, '.agents/skills'),
     },
     'codebuddy': {
         name: 'codebuddy',
@@ -60,7 +60,7 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'codex': {
         name: 'codex',
         displayName: 'Codex',
-        skillsDir: '.codex/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(codexHome, 'skills'),
     },
     'command-code': {
@@ -84,7 +84,7 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'cursor': {
         name: 'cursor',
         displayName: 'Cursor',
-        skillsDir: '.cursor/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.cursor/skills'),
     },
     'droid': {
@@ -96,13 +96,13 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'gemini-cli': {
         name: 'gemini-cli',
         displayName: 'Gemini CLI',
-        skillsDir: '.gemini/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.gemini/skills'),
     },
     'github-copilot': {
         name: 'github-copilot',
         displayName: 'GitHub Copilot',
-        skillsDir: '.github/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.copilot/skills'),
     },
     'goose': {
@@ -168,7 +168,7 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'opencode': {
         name: 'opencode',
         displayName: 'OpenCode',
-        skillsDir: '.opencode/skills',
+        skillsDir: '.agents/skills',
         globalSkillsDir: join(configHome, 'opencode/skills'),
     },
     'openhands': {
