@@ -198,8 +198,8 @@ export const agents: Record<IAgentType, IAgentConfig> = {
     'replit': {
         name: 'replit',
         displayName: 'Replit',
-        skillsDir: '.agent/skills',
-        globalSkillsDir: '',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(configHome, 'agents/skills'),
     },
     'roo': {
         name: 'roo',
