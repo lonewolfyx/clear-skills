@@ -19,6 +19,7 @@ export type IAgentType
         | 'cursor'
         | 'deepagents'
         | 'droid'
+        | 'firebender'
         | 'gemini-cli'
         | 'github-copilot'
         | 'goose'

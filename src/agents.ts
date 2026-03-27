@@ -120,6 +120,12 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         skillsDir: '.factory/skills',
         globalSkillsDir: join(home, '.factory/skills'),
     },
+    'firebender': {
+        name: 'firebender',
+        displayName: 'Firebender',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(home, '.firebender/skills'),
+    },
     'gemini-cli': {
         name: 'gemini-cli',
         displayName: 'Gemini CLI',
