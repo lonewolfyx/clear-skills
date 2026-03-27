@@ -14,6 +14,7 @@ export type IAgentType
         | 'codex'
         | 'command-code'
         | 'continue'
+        | 'cortex'
         | 'crush'
         | 'cursor'
         | 'droid'

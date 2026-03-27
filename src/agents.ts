@@ -90,6 +90,12 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         skillsDir: '.continue/skills',
         globalSkillsDir: join(home, '.continue/skills'),
     },
+    'cortex': {
+        name: 'cortex',
+        displayName: 'Cortex Code',
+        skillsDir: '.cortex/skills',
+        globalSkillsDir: join(home, '.snowflake/cortex/skills'),
+    },
     'crush': {
         name: 'crush',
         displayName: 'Crush',
