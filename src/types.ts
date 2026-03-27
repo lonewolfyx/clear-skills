@@ -47,6 +47,7 @@ export type IAgentType
         | 'zencoder'
         | 'pochi'
         | 'adal'
+        | 'universal'
 
 export interface IAgentConfig {
     name: string

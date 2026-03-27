@@ -288,4 +288,10 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         skillsDir: '.adal/skills',
         globalSkillsDir: join(home, '.adal/skills'),
     },
+    'universal': {
+        name: 'universal',
+        displayName: 'Universal',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(configHome, 'agents/skills'),
+    },
 }
