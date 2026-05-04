@@ -70,7 +70,7 @@ const main = defineCommand({
         const selectedSkill = await multiselect({
             message: 'Select one or more skills to delete:',
             options: selectOptions,
-            initialValues: selectOptions.map(option => option.value),
+            // initialValues: selectOptions.map(option => option.value),
             required: true,
         }) as string[]
 
