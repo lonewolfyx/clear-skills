@@ -56,6 +56,7 @@ export interface IAgentConfig {
     skillsDir: string
     /** Global skills directory. Set to undefined if the agent doesn't support global installation. */
     globalSkillsDir: string
+    detectInstalled: () => Promise<boolean>
 }
 
 export type AgentsType = Record<IAgentType, IAgentConfig & { agentDir: string }>
