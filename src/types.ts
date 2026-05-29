@@ -54,6 +54,7 @@ export type IAgentType
         | 'trae-cn'
         | 'warp'
         | 'windsurf'
+        | 'zed'
         | 'zencoder'
         | 'pochi'
         | 'adal'
