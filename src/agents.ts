@@ -1,5 +1,5 @@
 import type { IAgentConfig, IAgentType } from '@/types.ts'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import { xdgConfig } from 'xdg-basedir'
@@ -12,6 +12,23 @@ const claudeHome = process.env.CLAUDE_CONFIG_DIR?.trim() || join(home, '.claude'
 const vibeHome = process.env.VIBE_HOME?.trim() || join(home, '.vibe')
 const zedAppDataHome = process.env.APPDATA?.trim()
 const zedFlatpakConfigHome = process.env.FLATPAK_XDG_CONFIG_HOME?.trim()
+const hermesHome = process.env.HERMES_HOME?.trim() || join(home, '.hermes')
+const autohandHome = process.env.AUTOHAND_HOME?.trim() || join(home, '.autohand')
+
+function packageJsonHasDependency(packageJsonPath: string, dependencyName: string): boolean {
+    try {
+        const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8')) as {
+            dependencies?: Record<string, unknown>
+            devDependencies?: Record<string, unknown>
+        }
+        return !!(
+            packageJson.dependencies?.[dependencyName] || packageJson.devDependencies?.[dependencyName]
+        )
+    }
+    catch {
+        return false
+    }
+}
 
 export function getOpenClawGlobalSkillsDir(
     homeDir = home,
@@ -58,6 +75,33 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(home, '.gemini/antigravity/skills'),
         detectInstalled: async () => {
             return existsSync(join(home, '.gemini/antigravity'))
+        },
+    },
+    'antigravity-cli': {
+        name: 'antigravity-cli',
+        displayName: 'Antigravity CLI',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(home, '.gemini/antigravity-cli/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.gemini/antigravity-cli'))
+        },
+    },
+    'astrbot': {
+        name: 'astrbot',
+        displayName: 'AstrBot',
+        skillsDir: 'data/skills',
+        globalSkillsDir: join(home, '.astrbot/data/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(process.cwd(), 'data/skills')) || existsSync(join(home, '.astrbot'))
+        },
+    },
+    'autohand-code': {
+        name: 'autohand-code',
+        displayName: 'Autohand Code CLI',
+        skillsDir: '.autohand/skills',
+        globalSkillsDir: join(autohandHome, 'skills'),
+        detectInstalled: async () => {
+            return existsSync(autohandHome)
         },
     },
     'augment': {
@@ -222,6 +266,7 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         displayName: 'Dexto',
         skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.agents/skills'),
+        showInUniversalPrompt: false,
         detectInstalled: async () => {
             return existsSync(join(home, '.dexto'))
         },
@@ -235,11 +280,24 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(home, '.factory'))
         },
     },
+    'eve': {
+        name: 'eve',
+        displayName: 'Eve',
+        skillsDir: 'agent/skills',
+        globalSkillsDir: undefined,
+        detectInstalled: async () => {
+            const cwd = process.cwd()
+            return (
+                existsSync(join(cwd, 'agent')) && packageJsonHasDependency(join(cwd, 'package.json'), 'eve')
+            )
+        },
+    },
     'firebender': {
         name: 'firebender',
         displayName: 'Firebender',
         skillsDir: '.agents/skills',
         globalSkillsDir: join(home, '.firebender/skills'),
+        showInUniversalPrompt: false,
         detectInstalled: async () => {
             return existsSync(join(home, '.firebender'))
         },
@@ -284,9 +342,27 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         name: 'hermes-agent',
         displayName: 'Hermes Agent',
         skillsDir: '.hermes/skills',
-        globalSkillsDir: join(home, '.hermes/skills'),
+        globalSkillsDir: join(hermesHome, 'skills'),
         detectInstalled: async () => {
-            return existsSync(join(home, '.hermes'))
+            return existsSync(hermesHome)
+        },
+    },
+    'inference-sh': {
+        name: 'inference-sh',
+        displayName: 'inference.sh',
+        skillsDir: '.inferencesh/skills',
+        globalSkillsDir: join(home, '.inferencesh/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.inferencesh'))
+        },
+    },
+    'jazz': {
+        name: 'jazz',
+        displayName: 'Jazz',
+        skillsDir: '.jazz/skills',
+        globalSkillsDir: join(home, '.jazz/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.jazz')) || existsSync(join(process.cwd(), '.jazz'))
         },
     },
     'junie': {
@@ -316,13 +392,13 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(home, '.kilocode'))
         },
     },
-    'kimi-cli': {
-        name: 'kimi-cli',
+    'kimi-code-cli': {
+        name: 'kimi-code-cli',
         displayName: 'Kimi Code CLI',
         skillsDir: '.agents/skills',
-        globalSkillsDir: join(home, '.config/agents/skills'),
+        globalSkillsDir: join(home, '.agents/skills'),
         detectInstalled: async () => {
-            return existsSync(join(home, '.kimi'))
+            return existsSync(join(home, '.kimi-code')) || existsSync(join(home, '.kimi'))
         },
     },
     'kiro-cli': {
@@ -343,6 +419,25 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(home, '.kode'))
         },
     },
+    'lingma': {
+        name: 'lingma',
+        displayName: 'Lingma',
+        skillsDir: '.lingma/skills',
+        globalSkillsDir: join(home, '.lingma/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.lingma'))
+        },
+    },
+    'loaf': {
+        name: 'loaf',
+        displayName: 'Loaf',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: join(home, '.agents/skills'),
+        showInUniversalPrompt: false,
+        detectInstalled: async () => {
+            return existsSync(join(home, '.loaf'))
+        },
+    },
     'mcpjam': {
         name: 'mcpjam',
         displayName: 'MCPJam',
@@ -359,6 +454,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(vibeHome, 'skills'),
         detectInstalled: async () => {
             return existsSync(vibeHome)
+        },
+    },
+    'moxby': {
+        name: 'moxby',
+        displayName: 'Moxby',
+        skillsDir: '.moxby/skills',
+        globalSkillsDir: join(home, '.moxby/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.moxby'))
         },
     },
     'mux': {
@@ -388,6 +492,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(home, '.openhands'))
         },
     },
+    'ona': {
+        name: 'ona',
+        displayName: 'Ona',
+        skillsDir: '.ona/skills',
+        globalSkillsDir: join(home, '.ona/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.ona'))
+        },
+    },
     'pi': {
         name: 'pi',
         displayName: 'Pi',
@@ -404,6 +517,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(home, '.qoder/skills'),
         detectInstalled: async () => {
             return existsSync(join(home, '.qoder'))
+        },
+    },
+    'qoder-cn': {
+        name: 'qoder-cn',
+        displayName: 'Qoder CN',
+        skillsDir: '.qoder/skills',
+        globalSkillsDir: join(home, '.qoder-cn/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.qoder-cn'))
         },
     },
     'qwen-code': {
@@ -423,6 +545,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         showInUniversalList: false,
         detectInstalled: async () => {
             return existsSync(join(process.cwd(), '.replit'))
+        },
+    },
+    'reasonix': {
+        name: 'reasonix',
+        displayName: 'Reasonix',
+        skillsDir: '.reasonix/skills',
+        globalSkillsDir: join(home, '.reasonix/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.reasonix'))
         },
     },
     'rovodev': {
@@ -450,6 +581,24 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(home, '.tabnine/agent/skills'),
         detectInstalled: async () => {
             return existsSync(join(home, '.tabnine'))
+        },
+    },
+    'terramind': {
+        name: 'terramind',
+        displayName: 'Terramind',
+        skillsDir: '.terramind/skills',
+        globalSkillsDir: join(home, '.terramind/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.terramind'))
+        },
+    },
+    'tinycloud': {
+        name: 'tinycloud',
+        displayName: 'Tinycloud',
+        skillsDir: '.tinycloud/skills',
+        globalSkillsDir: join(home, '.tinycloud/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.tinycloud'))
         },
     },
     'trae': {
@@ -511,6 +660,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(home, '.zencoder'))
         },
     },
+    'zenflow': {
+        name: 'zenflow',
+        displayName: 'Zenflow',
+        skillsDir: '.zencoder/skills',
+        globalSkillsDir: join(home, '.zencoder/skills'),
+        detectInstalled: async () => {
+            return existsSync(join(home, '.zencoder'))
+        },
+    },
     'neovate': {
         name: 'neovate',
         displayName: 'Neovate',
@@ -527,6 +685,19 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(home, '.pochi/skills'),
         detectInstalled: async () => {
             return existsSync(join(home, '.pochi'))
+        },
+    },
+    'promptscript': {
+        name: 'promptscript',
+        displayName: 'PromptScript',
+        skillsDir: '.agents/skills',
+        globalSkillsDir: undefined,
+        showInUniversalPrompt: false,
+        detectInstalled: async () => {
+            return (
+                existsSync(join(process.cwd(), '.promptscript'))
+                || existsSync(join(process.cwd(), 'promptscript.yaml'))
+            )
         },
     },
     'adal': {
