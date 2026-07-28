@@ -10,10 +10,11 @@ const configHome = xdgConfig ?? join(home, '.config')
 const codexHome = process.env.CODEX_HOME?.trim() || join(home, '.codex')
 const claudeHome = process.env.CLAUDE_CONFIG_DIR?.trim() || join(home, '.claude')
 const vibeHome = process.env.VIBE_HOME?.trim() || join(home, '.vibe')
-const zedAppDataHome = process.env.APPDATA?.trim()
-const zedFlatpakConfigHome = process.env.FLATPAK_XDG_CONFIG_HOME?.trim()
 const hermesHome = process.env.HERMES_HOME?.trim() || join(home, '.hermes')
 const autohandHome = process.env.AUTOHAND_HOME?.trim() || join(home, '.autohand')
+const grokHome = process.env.GROK_HOME?.trim() || join(home, '.grok')
+const zedAppDataHome = process.env.APPDATA?.trim()
+const zedFlatpakConfigHome = process.env.FLATPAK_XDG_CONFIG_HOME?.trim()
 
 function packageJsonHasDependency(packageJsonPath: string, dependencyName: string): boolean {
     try {
@@ -47,6 +48,20 @@ export function getOpenClawGlobalSkillsDir(
     }
 
     return join(homeDir, '.openclaw/skills')
+}
+
+export function isZCodeInstalled(
+    homeDir = home,
+    pathExists: (path: string) => boolean = existsSync,
+) {
+    return pathExists(join(homeDir, '.zcode')) || pathExists('/Applications/ZCode.app')
+}
+
+export function isKimchiInstalled(
+    homeDir = home,
+    pathExists: (path: string) => boolean = existsSync,
+) {
+    return pathExists(join(homeDir, '.config', 'kimchi'))
 }
 
 export const agents: Record<IAgentType, IAgentConfig> = {
@@ -338,6 +353,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
             return existsSync(join(configHome, 'goose'))
         },
     },
+    'grok': {
+        name: 'grok',
+        displayName: 'Grok Build',
+        skillsDir: '.grok/skills',
+        globalSkillsDir: join(grokHome, 'skills'),
+        detectInstalled: async () => {
+            return existsSync(grokHome)
+        },
+    },
     'hermes-agent': {
         name: 'hermes-agent',
         displayName: 'Hermes Agent',
@@ -390,6 +414,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
         globalSkillsDir: join(home, '.kilocode/skills'),
         detectInstalled: async () => {
             return existsSync(join(home, '.kilocode'))
+        },
+    },
+    'kimchi': {
+        name: 'kimchi',
+        displayName: 'Kimchi',
+        skillsDir: '.kimchi/skills',
+        globalSkillsDir: join(home, '.config', 'kimchi', 'harness', 'skills'),
+        detectInstalled: async () => {
+            return isKimchiInstalled()
         },
     },
     'kimi-code-cli': {
@@ -649,6 +682,15 @@ export const agents: Record<IAgentType, IAgentConfig> = {
                 || (!!zedAppDataHome && existsSync(join(zedAppDataHome, 'Zed')))
                 || (!!zedFlatpakConfigHome && existsSync(join(zedFlatpakConfigHome, 'zed')))
             )
+        },
+    },
+    'zcode': {
+        name: 'zcode',
+        displayName: 'ZCode',
+        skillsDir: '.zcode/skills',
+        globalSkillsDir: join(home, '.zcode/skills'),
+        detectInstalled: async () => {
+            return isZCodeInstalled()
         },
     },
     'zencoder': {
